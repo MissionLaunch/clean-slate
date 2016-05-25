@@ -6,10 +6,10 @@
         .controller('ClientController', ClientController);
 
     function ClientController($rootScope, $scope, $firebaseAuth, userService, $state, $firebaseArray){
-        
-        //$scope.currentUser = $rootScope.currentUser.profile;
+          
         var vm = this;
         var ref = new Firebase($rootScope.fbUrl);
+        
         var orgRef = ref.child('organizations').child($rootScope.currentUser.profile.key);       
         var clientRef = orgRef.child("clients");
         
@@ -17,7 +17,8 @@
         vm.authObj = $firebaseAuth(ref);
          
         $scope.clients = $firebaseArray(orgRef.child('clients'));
-
+        
+        
         vm.saveClient = saveClient;
         vm.logOut = logOut;
         vm.initDummyData = initDummyData;
@@ -29,30 +30,57 @@
         vm.initDummyData();
 
         function saveClient(newClient){
-             
-            console.log("about to save client ");
+            
             console.log(newClient);
             
+            //Checks checks to see if any records have been added for the current client 
             if($scope.records)
                 newClient.records = $scope.records;
             else
                 newClient.records = [];
+               
+            //Ensure each object has a valid value   
+              if(newClient.determination === undefined)
+                newClient.determination = "N/A";
+               if(newClient.clientID === undefined)
+                newClient.clientID = "N/A";
+               if(newClient.status === undefined)
+                newClient.status = "N/A";
+               
                 
             //Must change to add client as data NOT as actual users.
             var newclientRef = clientRef.push();
-            var dob = new Date(newClient.dobYear, newClient.dobMonth, newClient.dobDay);
+            var today = new Date();
             newclientRef.set({
-                first: newClient.first,
-                middle: newClient.middle,
-                last: newClient.last,
-                phone: newClient.phone,
-                email: newClient.email,
-                address1: newClient.address1,
-                address2: newClient.address2,
-                pendingCase: newClient.pendingCase, 
-                dob: dob,
-                record: newClient.records
+                clientID: newClient.clientID,
+                determination: newClient.determination,
+                status: newClient.status
             });
+            
+           //Save each item in record 
+           var recordRef = ref.child('recordItems');
+           angular.forEach(newClient.records, function(recordItem) {
+               
+              if(recordItem.itemType == 'Felony')
+                  recordItem.eligibilityStatus = recordItem.FelonyType;
+              else 
+                  recordItem.eligibilityStatus = recordItem.MisdemeanorType;
+               
+              var newRecordItemRef =  recordRef.push();
+                newRecordItemRef.set({
+                    clientID: newClient.clientID,
+                    organizationID: $rootScope.currentUser.profile.key,
+                    itemType: recordItem.itemType,
+                    itemEligibilityStatus: recordItem.eligibilityStatus,
+                    convictionStatus: recordItem.convictionStatus,
+                    dateOffPapers: recordItem.fullDate,
+                    sealingEligibility: recordItem.eligibility,
+                    itemPapered: recordItem.papered
+                });
+            });
+            
+            
+            
         };
         
         function logOut(){
@@ -64,6 +92,8 @@
         function initDummyData(){
             //Initialize form with basic data for person
                 $scope.person = {};
+                /*
+                
                 $scope.person.first = "John";
                 $scope.person.middle = "Jay";
                 $scope.person.last = "Smith";
@@ -73,7 +103,7 @@
                 $scope.person.address2 = "Washington, DC, 20002";
                 $scope.person.dobMonth = "10";
                 $scope.person.dobDay = "05";
-                $scope.person.dobYear = "2015";
+                $scope.person.dobYear = "2015";*/
                 $scope.person.pendingCase = false;    
                 $scope.records = [];
                 $scope.convictions = [];
@@ -174,7 +204,7 @@
             var convictionEligibilityDate = {}; 
             
             if($scope.convictions.length > 0);
-                convictionEligibilityDate = this.findConvictionDate();
+                convictionEligibilityDate = vm.findConvictionDate();
             
             angular.forEach($scope.records, function(item)
             {
@@ -256,7 +286,7 @@
                 }
                 else if(item.convictionStatus === 'Conviction' &&  item.itemType === 'Misdemeanor' && item.MisdemeanorType === 'Eligible')
                 {
-                    if(($scope.hasMDQconvictions) || this.findDConvictions(item.dispDate))
+                    if(($scope.hasMDQconvictions) || vm.findDConvictions(item.dispDate))
                     {  
                         item.eligibility = 'Ineligible due to another Conviction';
                         eligibilityDate.year = 0;

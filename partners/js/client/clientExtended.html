@@ -1,0 +1,321 @@
+<div class="container" >
+    
+    
+    <div id="ClientForm" ng-show="true">
+        
+      <div class="container-fluid" style="max-width: 900px;">
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Client Intake Form
+            </div>
+            <div class="panel-body">
+                <div style="padding: 2em 2em 2em 2em; max-width: 750px">
+
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <p>
+                                First name:<br>
+                                <input type="text" name="user" ng-model="person.first" required>
+                            </p>
+                        </div>
+                        <div class="col-sm-4">
+                            <p>
+                                Middle name:<br>
+                                <input type="text" name="user" ng-model="person.middle" required>
+                            </p>
+                        </div>
+                        <div class="col-sm-4">
+                            <p>
+                                Last name:<br>
+                                <input type="text" name="user" ng-model="person.last" required>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        
+                        <div class="col-sm-4">
+                            <p>
+                                PDID#:<br>
+                                <input type="text" name="pdid" ng-model="person.pdid" required>
+                            </p>
+                        </div>
+                        <div class="col-sm-4">
+                            <p>
+                                Email:<br>
+                                <input type="email" name="email" ng-model="person.email" required>
+                            </p>
+                        </div>
+                        <div class="col-sm-4">
+                            <p>
+                                Phone:<br>
+                                <input type="text" name="email" ng-model="person.phone" required>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p>
+                                Address:<br>
+                                <input type="text" name="email" ng-model="person.address1" required>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p>
+                                City, State, Zip:<br>
+                                <input type="text" name="email" ng-model="person.address2" required>
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p>
+                                DOB
+                                <input type="text" name="dobMonth" placeholder="mm" ng-model="person.dobMonth" required style="max-width: 30px">
+                                <input type="text" name="dobDay" placeholder="dd" ng-model="person.dobDay" required style="max-width: 30px">
+                                <input type="text" name="dobYear" placeholder="yyyy" ng-model="person.dobYear" required style="max-width: 50px">
+
+                            </p>
+
+
+                        </div>
+                        <div class="col-sm-6"></div>
+                    </div>
+                     
+
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button ng-click="vm.saveClient(person)" class="btn btn-success">Save Client</button>
+                <button ng-click="vm.addRecordItem()" class="btn btn-success">Add Record</button>
+               
+            </div>
+        </div>
+</div>
+
+</div>
+          
+<div id="ClientRecord"  ng-show="true">
+
+    <h2>Criminal and Arrest Records</h3>
+    
+    <div class="row">
+    </div>
+    
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="panel panel-default" style="max-width: 380px">
+                <div class="panel-heading">
+                    Add Item from Record
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label >Charge Type </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="itradio" value="Felony" ng-model="newRecord.itemType">Felony 
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="itradio" value="Misdemeanor" ng-model="newRecord.itemType">Misdemeanor
+                        </label>                                                                               
+                    </div>
+                    
+                    <div class="form-group" ng-show="newRecord.itemType == 'Misdemeanor'">
+                        <label  data-toggle="modal" data-target="#mdTypes" >Misdemeanor Type: </label>                                    
+
+                        <label class="radio-inline">
+                            <input type="radio" name="mtradio" value="Ineligible" ng-model="newRecord.MisdemeanorType">Ineligible 
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="mtradio" value="Eligible" ng-model="newRecord.MisdemeanorType">Eligible
+                        </label>                                                                               
+                    </div>
+                                            
+                    <div class="form-group" ng-show="newRecord.itemType == 'Felony'">
+                        <label >Felony Type: </label>                                    
+
+                        <label class="radio-inline">
+                            <input type="radio" name="flradio" value="Eligible" ng-model="newRecord.FelonyType">Felony BRA
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="flradio" value="Ineligible" ng-model="newRecord.FelonyType">Other Felony 
+                        </label>
+                                                                                                    
+                    </div>
+                    
+
+                    <div class="form-group">
+                        <label >Result </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="conradio" value="Non-Conviction" ng-model="newRecord.convictionStatus">Non-Conviction 
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="conradio" value="Conviction" ng-model="newRecord.convictionStatus">Conviction
+                        </label>                                                                                          
+                    </div>                             
+                    <div class="form-group">                                        
+                        <label >Papered </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="paperradio" value="No" ng-model="newRecord.papered">No 
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="paperradio" value="Yes" ng-model="newRecord.papered">Yes
+                        </label>
+                        
+                    </div>
+                    <div class="form-group" ng-hide="true">
+                        Arrest/Charge Date
+                        <input type="text" name="chargeMonth" ng-model="newRecord.itemDate.month" required style="width: 25px">
+                        <input type="text" name="chargeDay" ng-model="newRecord.itemDate.day" required style="width: 25px">
+                        <input type="text" name="chargeYear" ng-model="newRecord.itemDate.year" required style="width: 40px">
+
+                    </div>
+                    <div class="form-group" >
+                        
+                         <label >Disposition </label>
+                       
+                        <select name="disposition" ng-options="disp.title for disp in dispositionOptions " ng-model="newRecord.disposition"></select>
+                    </div>
+                    <div class="form-group">
+                         <label > Date Off Probation / Disposition </label>
+                       
+                        <input type="text" name="dispMonth" ng-model="newRecord.dispDate.month" required style="width: 25px">
+                        <input type="text" name="dispDay" ng-model="newRecord.dispDate.day" required style="width: 25px">
+                        <input type="text" name="dispYear" ng-model="newRecord.dispDate.year" required style="width: 40px">
+
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <button ng-click="vm.addRecordItem()" class="btn btn-success">Add</button>
+                </div>
+
+            </div>
+        </div>        
+ 
+        <div class="col-sm-7"> 
+               <div class="panel panel-default">
+            <div class="panel-heading">
+                Full Client Record
+            </div>
+            <div class="panel-body">
+     
+                    <p>
+                              Do you have any pending cases?
+        <input type="checkbox" ng-model="person.pendingCase">
+  
+                        </p>               
+            <table ng-show="records.length > 0" class="table table-responsive table-condensed table-striped table-hover" style="max-width: 800px ">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Charge Type</th>
+                        <th>Papered</th>
+                        <th>Date Off-Papers</th>
+                        <th>Eligibility</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat-start="record in records"  ng-click="record.expanded = !record.expanded" class="{{ record.resultClass }}">
+                    <td>
+                    <span ng-show="!record.expanded">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </span> 
+                    
+                    <span ng-show="record.expanded">
+                        <i class="glyphicon glyphicon-minus"></i>
+                    </span> 
+                        </td>
+                    <td>
+                        <span ng-show="record.itemType == 'Misdemeanor'">
+                        {{ record.MisdemeanorType }}     
+                        </span>
+                        {{ record.itemType }} - {{ record.convictionStatus }} 
+                    </td>
+                    <td>{{ record.papered }}</td>
+                    <td>{{ record.fullDate | date:'MM/dd/yyyy' }}</td>
+                    <td>{{ record.eligibility }}</td>
+                </tr>
+                <tr ng-repeat-end ng-show="record.expanded">
+                    <td colspan="5" >
+                        <div ng-repeat="justification in record.justifications"> 
+                            <dl class="dl-horizontal">
+                                <dt>Here's why: </dt>
+                                <dd>{{ justification.explanation }}</dd>
+                                
+                                <dt>Related Law:</dt>
+                                <dd>{{ justification.lawCode }}</dd>
+                                
+                                <dt> Exception:</dt>
+                                <dd>{{ justification.exception }}</dd>
+                                
+                                <dt></dt>
+                                <dd></dd>
+                                
+                            </dl>
+                            
+                            </div>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+       <div class="container">
+       
+        <!-- Modal -->
+        <div class="modal fade" id="mdTypes" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Eligible Misdemeanors</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            A list of common Misdemeanors in sealing:
+                        </p>
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" value="">Did you inquire as to whether or not a person has an assault charge for harming
+                                someone dating their ex-girlfriend or boyfriend? Assaulting someone dating your ex-girlfriend or boyfriend is a charge,
+                                either a felony or misdemeanor, that is not eligible for sealing under the current law.
+                            </label>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        </div>
+        
+    </div>
+
+
+     
+
+        <div class="container">
+            CLient Status
+            <select name="clientStatus" ng-model="newRecord.status">
+                <option value=""></option>
+                <option value="Needs copies of record">Needs copies of record</option>
+                <option value="Currently Being Reviewed">Currently Being Reviewed</option>
+                <option value="Needs to file Motion">Needs to file Motion</option>                
+                <option value="Motion filed">Motion has been filed</option>
+                <option value="Waiting for Eligibilty window">Waiting for Eligibilty window</option>
+            </select>
+        </div>
+        </div>
+    
+</div>

@@ -1,112 +1,119 @@
 <div class="container" >
     
-    
-    <div id="ClientForm" ng-show="true">
-        
-      <div class="container-fluid" style="max-width: 900px;">
 
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Client Intake Form
-            </div>
-            <div class="panel-body">
-                <div style="padding: 2em 2em 2em 2em; max-width: 750px">
-
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <p>
-                                First name:<br>
-                                <input type="text" name="user" ng-model="person.first" required>
-                            </p>
-                        </div>
-                        <div class="col-sm-4">
-                            <p>
-                                Middle name:<br>
-                                <input type="text" name="user" ng-model="person.middle" required>
-                            </p>
-                        </div>
-                        <div class="col-sm-4">
-                            <p>
-                                Last name:<br>
-                                <input type="text" name="user" ng-model="person.last" required>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        
-                        <div class="col-sm-4">
-                            <p>
-                                PDID#:<br>
-                                <input type="text" name="pdid" ng-model="person.pdid" required>
-                            </p>
-                        </div>
-                        <div class="col-sm-4">
-                            <p>
-                                Email:<br>
-                                <input type="email" name="email" ng-model="person.email" required>
-                            </p>
-                        </div>
-                        <div class="col-sm-4">
-                            <p>
-                                Phone:<br>
-                                <input type="text" name="email" ng-model="person.phone" required>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p>
-                                Address:<br>
-                                <input type="text" name="email" ng-model="person.address1" required>
-                            </p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p>
-                                City, State, Zip:<br>
-                                <input type="text" name="email" ng-model="person.address2" required>
-                            </p>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p>
-                                DOB
-                                <input type="text" name="dobMonth" placeholder="mm" ng-model="person.dobMonth" required style="max-width: 30px">
-                                <input type="text" name="dobDay" placeholder="dd" ng-model="person.dobDay" required style="max-width: 30px">
-                                <input type="text" name="dobYear" placeholder="yyyy" ng-model="person.dobYear" required style="max-width: 50px">
-
-                            </p>
-
-
-                        </div>
-                        <div class="col-sm-6"></div>
-                    </div>
-                     
-
-                </div>
-            </div>
-            <div class="panel-footer">
-                <button ng-click="vm.saveClient(person)" class="btn btn-success">Save Client</button>
-                <button ng-click="vm.addRecordItem()" class="btn btn-success">Add Record</button>
-               
-            </div>
-        </div>
-</div>
-
-</div>
           
-<div id="ClientRecord"  ng-show="true">
+    <div id="ClientRecord"  ng-show="true">
 
     <h2>Criminal and Arrest Records</h3>
     
     <div class="row">
-    </div>
-    
-    <div class="row">
-        <div class="col-sm-5">
+             
+ 
+        <div class="col-sm-7"> 
+               <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Full Client Record
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            Client ID:
+                            <input type="text" name="user" ng-model="person.clientID" required>
+                        </p>
+                        <p>
+                              Does client have any pending cases?
+                                <input type="checkbox" ng-model="person.pendingCase">
+                        </p>               
+                        <table ng-show="records.length > 0" class="table table-responsive table-condensed table-striped table-hover" style="max-width: 800px ">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Charge Type</th>
+                                    <th>Papered</th>
+                                    <th>Date Off-Papers</th>
+                                    <th>Eligibility</th>
+                                </tr>
+                            </thead>
+                            <tr ng-repeat-start="record in records"  ng-click="record.expanded = !record.expanded" class="{{ record.resultClass }}">
+                                <td>
+                                <span ng-show="!record.expanded">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </span> 
+                                
+                                <span ng-show="record.expanded">
+                                    <i class="glyphicon glyphicon-minus"></i>
+                                </span> 
+                                    </td>
+                                <td>
+                                    <span ng-show="record.itemType == 'Misdemeanor'">
+                                    {{ record.MisdemeanorType }}     
+                                    </span>
+                                    {{ record.itemType }} - {{ record.convictionStatus }} 
+                                </td>
+                                <td>{{ record.papered }}</td>
+                                <td>{{ record.fullDate | date:'MM/dd/yyyy' }}</td>
+                                <td>{{ record.eligibility }}</td>
+                            </tr>
+                            <tr ng-repeat-end ng-show="record.expanded">
+                                <td colspan="5" >
+                                    <div ng-repeat="justification in record.justifications"> 
+                                        <dl class="dl-horizontal">
+                                            <dt>Here's why: </dt>
+                                            <dd>{{ justification.explanation }}</dd>
+                                            
+                                            <dt>Related Law:</dt>
+                                            <dd>{{ justification.lawCode }}</dd>
+                                            
+                                            <dt> Exception:</dt>
+                                            <dd>{{ justification.exception }}</dd>
+                                            
+                                            <dt></dt>
+                                            <dd></dd>
+                                            
+                                        </dl>
+                                        
+                                        </div>
+                                </td>
+
+                            </tr>
+                        </table>
+                    
+                      <div>
+                                Client Status
+                                <select name="clientStatus" ng-model="person.status">
+                                    <option value=""></option>
+                                    <option value="Needs copies of record">Needs copies of record</option>
+                                    <option value="Currently Being Reviewed">Currently Being Reviewed</option>
+                                    <option value="Needs to file Motion">Needs to file Motion</option>                
+                                    <option value="Motion filed">Motion has been filed</option>
+                                    <option value="Waiting for Eligibilty window">Waiting for Eligibilty window</option>
+                                </select>
+                            </div>
+        
+                            <div>
+                                Determination:
+                                <select name="lawyerDetermination" ng-model="person.Determination">
+                                    <option value=""></option>
+                                    <option value="1">Non-conviction, but waiting period has not passed</option>
+                                    <option value="2">Non-conviction &  waiting period passed  BUT  has other disqualifying offenses. </option>
+                                    <option value="3">Convicted  of an eligible misdemeanor but 10 year waiting period has not passed</option>                
+                                    <option value="4">Convicted  of an eligible misdemeanor &10 year waiting period passed, But has subseqent disqualifying arrest or conviction</option>
+                                    <option value="5">Convicted of a Felony other than Failure to Appear</option>
+                                    <option value="6">Convicted of a non-eligible misdemeanor </option>                
+                                    <option value="7">Partial eligibilty: some arrests or convictions can be sealed now. Some later</option>
+                                </select>
+                            </div>
+                    </div>
+                    <div class="panel-footer">
+                            <button ng-click="vm.saveClient(person)" class="btn btn-success">Save Client</button>
+                            <button ng-click="vm.addRecordItem()" class="btn btn-success">Add Record</button>
+      
+                          
+                                    
+                    </div>
+                </div>
+        </div>
+        
+         <div class="col-sm-5">
             <div class="panel panel-default" style="max-width: 380px">
                 <div class="panel-heading">
                     Add Item from Record
@@ -155,7 +162,7 @@
                             <input type="radio" name="conradio" value="Conviction" ng-model="newRecord.convictionStatus">Conviction
                         </label>                                                                                          
                     </div>                             
-                    <div class="form-group">                                        
+                    <div class="form-group" ng-show="newRecord.convictionStatus == 'Non-Conviction'">                                        
                         <label >Papered </label>
                         <label class="radio-inline">
                             <input type="radio" name="paperradio" value="No" ng-model="newRecord.papered">No 
@@ -172,14 +179,14 @@
                         <input type="text" name="chargeYear" ng-model="newRecord.itemDate.year" required style="width: 40px">
 
                     </div>
-                    <div class="form-group" >
+                    <div class="form-group" ng-hide="true" >
                         
                          <label >Disposition </label>
                        
                         <select name="disposition" ng-options="disp.title for disp in dispositionOptions " ng-model="newRecord.disposition"></select>
                     </div>
                     <div class="form-group">
-                         <label > Date Off Probation / Disposition </label>
+                         <label > Date Off Papers </label>
                        
                         <input type="text" name="dispMonth" ng-model="newRecord.dispDate.month" required style="width: 25px">
                         <input type="text" name="dispDay" ng-model="newRecord.dispDate.day" required style="width: 25px">
@@ -193,77 +200,10 @@
                 </div>
 
             </div>
-        </div>        
- 
-        <div class="col-sm-7"> 
-               <div class="panel panel-default">
-            <div class="panel-heading">
-                Full Client Record
-            </div>
-            <div class="panel-body">
-     
-                    <p>
-                              Do you have any pending cases?
-        <input type="checkbox" ng-model="person.pendingCase">
-  
-                        </p>               
-            <table ng-show="records.length > 0" class="table table-responsive table-condensed table-striped table-hover" style="max-width: 800px ">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Charge Type</th>
-                        <th>Papered</th>
-                        <th>Date Off-Papers</th>
-                        <th>Eligibility</th>
-                    </tr>
-                </thead>
-                <tr ng-repeat-start="record in records"  ng-click="record.expanded = !record.expanded" class="{{ record.resultClass }}">
-                    <td>
-                    <span ng-show="!record.expanded">
-                        <i class="glyphicon glyphicon-plus"></i>
-                    </span> 
-                    
-                    <span ng-show="record.expanded">
-                        <i class="glyphicon glyphicon-minus"></i>
-                    </span> 
-                        </td>
-                    <td>
-                        <span ng-show="record.itemType == 'Misdemeanor'">
-                        {{ record.MisdemeanorType }}     
-                        </span>
-                        {{ record.itemType }} - {{ record.convictionStatus }} 
-                    </td>
-                    <td>{{ record.papered }}</td>
-                    <td>{{ record.fullDate | date:'MM/dd/yyyy' }}</td>
-                    <td>{{ record.eligibility }}</td>
-                </tr>
-                <tr ng-repeat-end ng-show="record.expanded">
-                    <td colspan="5" >
-                        <div ng-repeat="justification in record.justifications"> 
-                            <dl class="dl-horizontal">
-                                <dt>Here's why: </dt>
-                                <dd>{{ justification.explanation }}</dd>
-                                
-                                <dt>Related Law:</dt>
-                                <dd>{{ justification.lawCode }}</dd>
-                                
-                                <dt> Exception:</dt>
-                                <dd>{{ justification.exception }}</dd>
-                                
-                                <dt></dt>
-                                <dd></dd>
-                                
-                            </dl>
-                            
-                            </div>
-                    </td>
-
-                </tr>
-            </table>
-        </div>
+        </div>  
+        
     </div>
-    
-       <div class="container">
+    <div class="container">
        
         <!-- Modal -->
         <div class="modal fade" id="mdTypes" role="dialog">
@@ -301,21 +241,5 @@
         </div>
         
     </div>
-
-
-     
-
-        <div class="container">
-            CLient Status
-            <select name="clientStatus" ng-model="newRecord.status">
-                <option value=""></option>
-                <option value="Needs copies of record">Needs copies of record</option>
-                <option value="Currently Being Reviewed">Currently Being Reviewed</option>
-                <option value="Needs to file Motion">Needs to file Motion</option>                
-                <option value="Motion filed">Motion has been filed</option>
-                <option value="Waiting for Eligibilty window">Waiting for Eligibilty window</option>
-            </select>
-        </div>
-        </div>
-    
+ 
 </div>
