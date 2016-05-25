@@ -2,6 +2,54 @@ body {
     padding-top: 88px;
     background-size: cover;
 }
+.accordion-container {
+	width: 100%;
+	margin: 0 0 20px;
+	clear: both;
+}
+.accordion-toggle {
+	position: relative;
+	display: block;
+	padding: 20px;
+	font-size: 1.5em;
+	font-weight: 300;
+	background: #999;
+	color: #fff;
+	text-decoration: none;
+}
+.accordion-toggle.open {
+	background: #333;
+	color: #fff;
+}
+.accordion-toggle:hover {
+	background: #666;
+}
+.accordion-toggle span.toggle-icon {
+	position: absolute;
+	top: 9px;
+	right: 20px;
+	font-size: 1.5em;
+}
+.accordion-content {
+	display: none;
+	padding: 20px;
+	overflow: auto;
+}
+.accordion-content img {
+	display: block;
+	float: left;
+	margin: 0 15px 10px 0;
+	max-width: 100%;
+	height: auto;
+}
+ 
+/* media query for mobile */
+@media (max-width: 767px) {
+	.accordion-content {
+		padding: 10px 0;
+		overflow: inherit;
+	}
+}
 
 .navbar-header {
     height: 64px;
