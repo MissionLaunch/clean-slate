@@ -234,9 +234,10 @@
             angular.forEach($scope.records, function(item)
             {
                 //set eligibilityDate as current item's disposition Date
-                var eligibilityDate; 
-                angular.copy(item.dispDate, eligibilityDate); 
+                var eligibilityDate = item.dispDate; 
                 
+                /* angular.copy(item.dispDate, eligibilityDate); 
+                */
                 
                 //Set default fields for record checker`
                 item.eligibility = '';
