@@ -1,3 +1,5 @@
+Follow our progress here: https://www.notion.so/Evolution-of-CleanSlate-486181d77615419a9576a59d21b0a21c
+
 **Please note that the v.1 code for Clean-Slate rests with CodeforDC, where it was originally developed and deployed by a truly, truly amazing team. As of March 16, 2016, all further development and deployment will happen from this repo, housed at MissionLaunch.
 
 #[clean-slate](https://missionlaunch.github.io/clean-slate/)
