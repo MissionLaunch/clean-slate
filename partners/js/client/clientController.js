@@ -234,7 +234,9 @@
             angular.forEach($scope.records, function(item)
             {
                 //set eligibilityDate as current item's disposition Date
-                var eligibilityDate = item.dispDate;
+                var eligibilityDate; 
+                angular.copy(item.dispDate, eligibilityDate); 
+                
                 
                 //Set default fields for record checker`
                 item.eligibility = '';
@@ -370,7 +372,7 @@
                         item.justifications.push(newJustifications);
                     }
                     else
-                    {
+                    {                        
                         //Set earliest eligibility date: 8 years later 
                         eligibilityDate.year = (parseInt(item.dispDate.year) + 8);
 
@@ -419,7 +421,7 @@
                 }              
                 else if(item.convictionStatus === 'Non-Conviction' &&  item.itemType === 'Misdemeanor' &&  item.MisdemeanorType === 'Ineligible')
                 {
-                    //Eligibility checker for Conviction Misdeameanors - Ineligible 
+                    //Eligibility checker for Non-Conviction Misdeameanors - Ineligible 
                     if(item.papered === 'No')
                     {                    
                         if($scope.convictions.length > 0 && parseInt(convictionEligibilityDate.year) > parseInt(eligibilityDate.year))
