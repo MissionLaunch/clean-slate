@@ -19,7 +19,7 @@
         //console.log(currentUser);
     }
     
-})();
+})(
 
 $("#tabs").tabs({
     activate: function (event, ui) {
