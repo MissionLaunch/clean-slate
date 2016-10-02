@@ -22,7 +22,7 @@
 })();
 
 (function () {
-    var app = angular.module('myApp', []);
+    var app = angular.module('partner', []);
 
     app.controller('TabController', function () {
         this.tab = 1;
