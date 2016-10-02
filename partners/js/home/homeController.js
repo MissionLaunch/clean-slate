@@ -1,17 +1,3 @@
-var App = angular.module('App', ['ui.bootstrap']);
-
-angular.module('App')
-.controller('MyAccordionController', function($scope){
-  console.log('MyAccordionController');
-  $scope.accordions = [];
-  console.log($scope);
-})
-.controller('MyAccordionGroupController', function($scope){
-  console.log('MyAccordionGroupController');
-  $scope.accordion = {};
-  console.log($scope);
-  $scope.accordions.push($scope.accordion);
-})
 
 (function(){
     'use strict';
