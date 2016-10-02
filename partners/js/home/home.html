@@ -8,35 +8,22 @@
                 <h2>Clients</h2>
                 <p> Manage clients </p>
                 <p><a class="btn btn-default" ui-sref="clients" role="button">16-803 Analysis </a></p>
-       <div class="container">
-    <section ng-app="myApp" ng-controller="TabController as tab">
-        <ul class="nav nav-pills">
-            <li ng-class="{active:tab.isSet(1)}"><a href ng-click="tab.setTab(1)">Innocence</a></li>
-            <li ng-class="{active:tab.isSet(2)}"><a href ng-click="tab.setTab(2)">Fugitive Arrests</a></li>
-            <li ng-class="{active:tab.isSet(3)}"><a href ng-click="tab.setTab(3)">Marijuana </a></li>
-        </ul>
+       
+            </div>  
         
-        <div ng-show="tab.isSet(1)">
-             <h4>Innocence</h4>
- 
-           <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item"
-                        src="https://www.youtube.com/embed/BFBzPX3VncI"
-                        frameborder="0"
-                        allowfullscreen></iframe>
-            </div>
         </div>
-        <div ng-show="tab.isSet(2)">
-             <h4>Tab 2</h4>
-        </div>
-        <div ng-show="tab.isSet(3)">
-             <h4>Tab 3</h4>
-        </div>
-    </section>
-</div>
-              
-            </div>    
-        </div>
+      
+      <body ng-app="components">
+  <h3>BootStrap Tab Component</h3>
+  <tabs>
+    <pane title="First Tab">
+      <div>This is the content of the first tab.</div>
+    </pane>
+    <pane title="Second Tab">
+      <div>This is the content of the second tab.</div>
+    </pane>
+  </tabs>
+</body>
        </div>
     </div>   
            
