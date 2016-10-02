@@ -7,18 +7,31 @@
             <div class="col-md-4">
                 <h2>Clients</h2>
                 <p> Manage clients </p>
-                <p><a class="btn btn-default" ui-sref="clients" role="button">16-803 Analysis </a></p>
+              
             </div>  
         </div>
        </div>
     </div>   
-<h1>Toggle collapsible sections with AngularJS</h1>
+<h1>Sealing and Expungement Options</h1>
 
 <div ng-app id="ng-app">
     <hr />
-    <a href="#" ng-model="collapsed" ng-click="collapsed=!collapsed">Click here to <strong>Toggle (show/hide)</strong> description</a>
+    <a href="#" ng-model="collapsed" ng-click="collapsed=!collapsed">16-803 Anaylsis</a>
 
-    <div ng-show="collapsed">I am description for the above title, which was collapsed by default</div>
+    <div ng-show="collapsed">Sealing Convictions and Non-Convicions</div>
+    <p><a class="btn btn-default" ui-sref="clients" role="button">16-803 Analysis </a></p>
+    <hr />
+    
+   <hr />
+    <a href="#" ng-model="collapsed" ng-click="collapsed=!collapsed">Seal Marijuana</a>
+
+    <div ng-show="collapsed">Quick test to seal marijuana based on new law</div>
+    <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item"
+                        src="http://codefordc.org/clean-slate/#/eligibility/101"
+                        frameborder="0"
+                        allowfullscreen></iframe>
+            </div>
     <hr />
     
    
