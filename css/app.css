@@ -2,11 +2,6 @@ body {
     padding-top: 88px;
     background-size: cover;
 }
-
-p, li, blockquote {
-    font-size: 18px;
-    margin-bottom: 22px;
-}
 .accordion-container {
 	width: 100%;
 	margin: 0 0 20px;
@@ -123,11 +118,6 @@ p, li, blockquote {
 .panel-group .btn-primary {
     color:#ffffff;
     border-color:transparent;
-}
-
-.btn-secondary {
-    color: #ebebeb;
-    border-color: #ebebeb;
 }
 .panel-group .btn-block {
     text-align: left;
