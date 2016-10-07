@@ -2,6 +2,11 @@ body {
     padding-top: 88px;
     background-size: cover;
 }
+
+a {
+	text-decoration: none !important;
+}
+
 .accordion-container {
 	width: 100%;
 	margin: 0 0 20px;
@@ -42,7 +47,7 @@ body {
 	max-width: 100%;
 	height: auto;
 }
- 
+
 /* media query for mobile */
 @media (max-width: 767px) {
 	.accordion-content {
