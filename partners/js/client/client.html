@@ -26,29 +26,7 @@
 
                         <label class="radio-inline">
                             <input type="radio" name="mtradio" value="Ineligible" ng-model="newRecord.MisdemeanorType">Ineligible 
-                        </label><a ng-click="alertSomething()">List of Ineligble Msidemeanors</a>
-                        <div
-        bn-modals
-        ng-show="subview"
-        class="m-modals"
-        ng-switch="subview">
-
-        
-        <div
-            ng-switch-when="alert"
-            ng-controller="AlertModalController"
-            class="modal">
-
-            <p>
-                {{ message }}
-            </p>
-
-            <p>
-                <a ng-click="close()">Ok, I got it!</a>
-            </p>
-
-
-        </div>
+                        </label>
                         <label class="radio-inline">
                             <input type="radio" name="mtradio" value="Eligible" ng-model="newRecord.MisdemeanorType">Eligible
                         </label>                                                                               
