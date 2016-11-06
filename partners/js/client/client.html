@@ -30,7 +30,7 @@
                         <label class="radio-inline">
                             <input type="radio" name="mtradio" value="Eligible" ng-model="newRecord.MisdemeanorType">Eligible
                         </label>                                                                               
-                    </div>
+                 
                     <div ng-controller="ModalDemoCtrl">
     <script type="text/ng-template" id="myModalContent.html">
         <div class="modal-header">
@@ -50,6 +50,7 @@
 
     <button class="btn btn-default" ng-click="open()">List of Ineligible Misdemeanors</button>
 </div>
+                          </div>
                                             
                     <div class="form-group" ng-show="newRecord.itemType == 'Felony'">
                         <label >Felony Type: </label>                                    
