@@ -75,16 +75,22 @@
         <!--bind main $scope.currentTime to someVideo directive's videoCurrentTime -->
         <video some-video video-current-time="currentTime" src="http://nagi.ca/u/google.mp4" autoplay></video>
         <div>
+		div ng-controller="MainCtrl">
+        <!--range input that both show and control $scope.currentTime -->
+        <input type="range" min=0 max=60 ng-model="currentTime">
+        <!--bind main $scope.currentTime to someVideo directive's videoCurrentTime -->
+        <video some-video video-current-time="currentTime" src="http://github.com/MissionLaunch/clean-slate/blob/gh-pages/Explainer%201%20(1).mp4" autoplay></video>
+        <div>
 			      <div ng-controller="MainCtrl">
         <!--range input that both show and control $scope.currentTime -->
         <input type="range" min=0 max=60 ng-model="currentTime">
         <!--bind main $scope.currentTime to someVideo directive's videoCurrentTime -->
-        <video some-video video-current-time="currentTime" src="https://www.jotform.com/uploads/brianek/63166867798175/354804642435496968/Explainer%201.mp4" autoplay></video>
+        <video some-video video-current-time="currentTime" src="http://www.jotform.com/uploads/brianek/63166867798175/354804642435496968/Explainer%201.mp4" autoplay></video>
         <div><div ng-controller="MainCtrl">
         <!--range input that both show and control $scope.currentTime -->
         <input type="range" min=0 max=60 ng-model="currentTime">
         <!--bind main $scope.currentTime to someVideo directive's videoCurrentTime -->
-        <video some-video video-current-time="currentTime" src="https://www.jotform.com/uploads/brianek/63166867798175/354804642435496968/Explainer%201.mp4" autoplay></video>
+        <video some-video video-current-time="currentTime" src="https://github.com/MissionLaunch/clean-slate/blob/gh-pages/Explainer%201%20(1).mp4" autoplay></video>
         <div>
 				      </div>
     </div>
@@ -116,7 +122,7 @@
                 
             </div>
                 
-        </form> 
+
 
         <div ng-show="currentUser">     
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
