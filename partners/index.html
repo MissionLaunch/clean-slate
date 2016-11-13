@@ -18,7 +18,6 @@
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
             ga('create', 'UA-65720323-1', 'auto');
             ga('set', 'anonymizeIp', true);
         </script>
@@ -27,6 +26,7 @@
         
 	</head>
 	<body>
+        
         <form ng-hide="currentUser">
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="container">
@@ -51,9 +51,11 @@
                     </div>
                 </div>
             </nav>
-		<div class="row">
+
+            <div class="container">
+                <div class="row">
                     <div class="col-sm-12">
-                        <div style="max-width:1180px">
+                        <div style="max-width: 480px">
 
                             <h2 >Sign In</h2>
                             <label for="inputEmail" class="sr-only">User Name</label>
@@ -74,18 +76,17 @@
 			    
                     </div>
                 </div>
- <div class="row">
-            <div class="col-sm-12">
+	<div class="col-sm-12">
        <div style="max-width: 1180px" class="embed-responsive embed-responsive-16by9">
 	       <div ng-controller="MainCtrl">
         <!--bind main $scope.currentTime to someVideo directive's videoCurrentTime -->
-        <video some-video video-current-time="currentTime" src="http://www.jotform.com/uploads/brianek/63166867798175/354804642435496968/Explainer%201.mp4" autoplay></video>
-   
-				      </div>
+        <video some-video video-current-time="currentTime" src="http://www.jotform.com/uploads/brianek/63166867798175/354804642435496968/Explainer%201.mp4" autoplay></video></div>
 		   
-    </div></div>
+    </div></div>	  
             </div>
-      
+                
+        </form> 
+
         <div ng-show="currentUser">     
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="container">
@@ -110,12 +111,12 @@
                     </div>
                 </div>
             </nav>
-</div>
+
             <div class="container">
                 
                 <div ui-view></div>
             </div>
-  
+        </div>
               <!-- Modal -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -136,6 +137,7 @@
         <script src="js/services/userService.js"></script>
         <script src="js/login/loginController.js"></script>
         <script src="js/home/homeController.js"></script>
-        <script src="js/client/clientController.js"></script>		
-	<body> 
-		<html>
+        <script src="js/client/clientController.js"></script>
+		
+	</body>
+</html>
