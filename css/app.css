@@ -137,3 +137,8 @@ a {
 .oarc-word.hovered {
     color:#666666!important;
 }
+
+/* for https://github.com/MissionLaunch/clean-slate/issues/123 */
+select {
+  color: #2b3e50;
+}
