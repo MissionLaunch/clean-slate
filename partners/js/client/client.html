@@ -2,7 +2,7 @@
     <div id="ClientRecord"  ng-show="true">
     <h2>16-803 Analysis</h2>
     <div class="row">
-        
+
         <div class="col-xs-12">
             <div class="panel panel-default" style="max-width: 1500px">
                 <div class="panel-heading">
@@ -16,15 +16,15 @@
                             <label>
                                 <input type="checkbox" value="">If your client is trying to seal an assualt charge, did you ask them if the assualt was against some one they had a romantic, dating, or sexual relationship with? An assualt on someone they had a romantic, dating, or sexual relationship with will constitute an example of “Intimate partner violence" which is an ineligble misdemeanor under <a href="https://beta.code.dccouncil.us/dc/council/code/sections/16-801.html" target="_blank">D.C. Statute §16–801(c)(9)</a>.
                             </label>
- 
-                        
+
+
                                 <label>
                                     <input type="checkbox" value="">Did you check with the client as to whether they were required to make a contribution
                                     to the victims fund and successfully made said contribution? If an individual was required to make a contribution & did not do so,
                                     then they cannot be considered "off-papers" at all. To start the clock on "off papers" they must make a contribution to the victim's fund.
                                 </label>
-                            
-                        </div></div></div></div>                                                                                    
+
+                        </div></div></div></div>
          <div class="col-xs-12">
             <div class="panel panel-default" style="max-width: 1500px">
                 <div class="panel-heading">
@@ -34,55 +34,55 @@
                     <div class="form-group">
                         <label >Charge Type </label>
                         <label class="radio-inline">
-                            <input type="radio" name="itradio" value="Felony" ng-model="newRecord.itemType">Felony 
+                            <input type="radio" name="itradio" value="Felony" ng-model="newRecord.itemType">Felony
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="itradio" value="Misdemeanor" ng-model="newRecord.itemType">Misdemeanor
-                        </label>                                                                               
+                        </label>
                     </div>
-                    
-                    <div class="form-group" ng-show="newRecord.itemType == 'Misdemeanor'">
-                        <label  data-toggle="modal" data-target="#mdTypes" >Misdemeanor Type: </label>                                    
 
-                        <label class="radio-inline">
-                            <input type="radio" name="mtradio" value="Ineligible" ng-model="newRecord.MisdemeanorType">Ineligible 
+                    <div class="form-group" ng-show="newRecord.itemType == 'Misdemeanor'">
+                        <label>Misdemeanor Type: </label>                                    
+
+                        <label data-toggle="modal" data-target="#mdTypes"class="radio-inline">
+                            <input type="radio" name="mtradio" value="Ineligible" ng-model="newRecord.MisdemeanorType">Ineligible
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="mtradio" value="Eligible" ng-model="newRecord.MisdemeanorType">Eligible
-                        </label>                                                                               
+                        </label>
                           </div>
-                                            
+
                     <div class="form-group" ng-show="newRecord.itemType == 'Felony'">
-                        <label >Felony Type: </label>                                    
+                        <label >Felony Type: </label>
 
                         <label class="radio-inline">
                             <input type="radio" name="flradio" value="Eligible" ng-model="newRecord.FelonyType">Felony BRA
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="flradio" value="Ineligible" ng-model="newRecord.FelonyType">Other Felony 
+                            <input type="radio" name="flradio" value="Ineligible" ng-model="newRecord.FelonyType">Other Felony
                         </label>
-                                                                                                    
+
                     </div>
-                    
+
 
                     <div class="form-group">
                         <label >Result </label>
                         <label class="radio-inline">
-                            <input type="radio" name="conradio" value="Non-Conviction" ng-model="newRecord.convictionStatus">Non-Conviction 
+                            <input type="radio" name="conradio" value="Non-Conviction" ng-model="newRecord.convictionStatus">Non-Conviction
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="conradio" value="Conviction" ng-model="newRecord.convictionStatus">Conviction
-                        </label>                                                                                          
-                    </div>                             
-                    <div class="form-group" ng-show="newRecord.convictionStatus == 'Non-Conviction'">                                        
+                        </label>
+                    </div>
+                    <div class="form-group" ng-show="newRecord.convictionStatus == 'Non-Conviction'">
                         <label >Papered </label>
                         <label class="radio-inline">
-                            <input type="radio" name="paperradio" value="No" ng-model="newRecord.papered">No 
+                            <input type="radio" name="paperradio" value="No" ng-model="newRecord.papered">No
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="paperradio" value="Yes" ng-model="newRecord.papered">Yes
                         </label>
-                        
+
                     </div>
                     <div class="form-group" ng-hide="true">
                         Arrest/Charge Date
@@ -92,14 +92,14 @@
 
                     </div>
                     <div class="form-group" ng-hide="true" >
-                        
+
                          <label >Disposition </label>
-                       
+
                         <select name="disposition" ng-options="disp.title for disp in dispositionOptions " ng-model="newRecord.disposition"></select>
                     </div>
                     <div class="form-group">
                          <label > Date Off Papers </label>
-                       
+
                         <input type="text" name="dispMonth" ng-model="newRecord.dispDate.month" required style="width: 25px">
                         <input type="text" name="dispDay" ng-model="newRecord.dispDate.day" required style="width: 25px">
                         <input type="text" name="dispYear" ng-model="newRecord.dispDate.year" required style="width: 40px">
@@ -112,13 +112,13 @@
                 </div>
 
             </div>
-        </div>  
-        
+        </div>
+
     </div>
-        
-     <div class="col-xl-12"> 
+
+     <div class="col-xl-12">
                <div class="panel panel-default" style="max-width: 1600px">
-           
+
                     <div class="panel-heading">
                         Full Client Record
                     </div>
@@ -130,7 +130,7 @@
                         <p>
                               Does the client have any pending cases?
                                 <input type="checkbox" ng-model="person.pendingCase">
-                        </p>               
+                        </p>
                         <table ng-show="records.length > 0" class="table table-responsive table-condensed table-striped table-hover" style="max-width: 1200px ">
                             <thead>
                                 <tr>
@@ -145,17 +145,17 @@
                                 <td>
                                 <span ng-show="!record.expanded">
                                     <i class="glyphicon glyphicon-plus"></i>
-                                </span> 
-                                
+                                </span>
+
                                 <span ng-show="record.expanded">
                                     <i class="glyphicon glyphicon-minus"></i>
-                                </span> 
+                                </span>
                                     </td>
                                 <td>
                                     <span ng-show="record.itemType == 'Misdemeanor'">
-                                    {{ record.MisdemeanorType }}     
+                                    {{ record.MisdemeanorType }}
                                     </span>
-                                    {{ record.itemType }} - {{ record.convictionStatus }} 
+                                    {{ record.itemType }} - {{ record.convictionStatus }}
                                 </td>
                                 <td>{{ record.papered }}</td>
                                 <td>{{ record.fullDate | date:'MM/dd/yyyy' }}</td>
@@ -163,50 +163,50 @@
                             </tr>
                             <tr ng-repeat-end ng-show="record.expanded">
                                 <td colspan="5" >
-                                    <div ng-repeat="justification in record.justifications"> 
+                                    <div ng-repeat="justification in record.justifications">
                                         <dl class="dl-horizontal">
                                             <dt>Here's why: </dt>
                                             <dd>{{ justification.explanation }}</dd>
-                                            
+
                                             <dt>Related Law:</dt>
                                             <dd>{{ justification.lawCode }}</dd>
-                                            
+
                                             <dt> Exception:</dt>
                                             <dd>{{ justification.exception }}</dd>
-                                            
+
                                             <dt></dt>
                                             <dd></dd>
-                                            
+
                                         </dl>
-                                        
+
                                         </div>
                                 </td>
 
                             </tr>
                         </table>
-                    
+
                       <div>
                                 Client Status
                                 <select name="clientStatus" ng-model="person.status">
                                     <option value=""></option>
                                     <option value="Needs copies of record">Needs copies of record</option>
                                     <option value="Currently Being Reviewed">Currently Being Reviewed</option>
-                                    <option value="Needs to file Motion">Needs to file Motion</option>                
+                                    <option value="Needs to file Motion">Needs to file Motion</option>
                                     <option value="Motion filed">Motion has been filed</option>
                                     <option value="Waiting for Eligibilty window">Waiting for Eligibilty window</option>
                                 </select>
                             </div>
-        
+
                             <div>
                                 Determination:
                                 <select name="lawyerDetermination" ng-model="person.Determination">
                                     <option value=""></option>
                                     <option value="1">Non-conviction. Waiting period not passed</option>
                                     <option value="2">Non-conviction. Waiting period passed. Other disqualifying offenses. </option>
-                                    <option value="3">Conviction. Eligible misdemeanor. 10 year waiting period not passed</option>                
+                                    <option value="3">Conviction. Eligible misdemeanor. 10 year waiting period not passed</option>
                                     <option value="4">Misdemanor but subseqent disqualifying arrest or conviction</option>
                                     <option value="5">Convicted of a Felony other than Failure to Appear</option>
-                                    <option value="6">Convicted of a non-eligible misdemeanor </option>                
+                                    <option value="6">Convicted of a non-eligible misdemeanor </option>
                                     <option value="7">Some arrests/convictions can be sealed now. Some later</option>
                                 </select>
                             </div>
@@ -214,15 +214,15 @@
                     <div class="panel-footer">
                             <button ng-click="vm.saveClient(person)" class="btn btn-success">Save Client</button>
                             <button ng-click="vm.addRecordItem()" class="btn btn-success">Add Record</button>
-      
-                          
-                                    
+
+
+
                     </div>
                 </div>
         </div>
-        
+
     <div class="container">
-       
+
         <!-- Modal -->
         <div class="modal fade" id="mdTypes" role="dialog">
             <div class="modal-dialog">
@@ -257,7 +257,7 @@
         </div>
 
         </div>
-        
+
     </div>
- 
+
 </div>
