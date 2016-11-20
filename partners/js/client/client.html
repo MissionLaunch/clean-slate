@@ -13,7 +13,7 @@
                         <label class="radio-inline">
                             <input type="radio" name="itradio" value="Felony" ng-model="newRecord.itemType">Felony
                         </label>
-                        <label class="radio-inline">
+                            <label data-toggle="modal" data-target="#mdTypes"class="radio-inline">
                             <input type="radio" name="itradio" value="Misdemeanor" ng-model="newRecord.itemType">Misdemeanor
                         </label>
                     </div>
@@ -21,7 +21,8 @@
                     <div class="form-group" ng-show="newRecord.itemType == 'Misdemeanor'">
                         <label>Misdemeanor Type: </label>                                    
 
-                        <label data-toggle="modal" data-target="#mdTypes"class="radio-inline">
+                   
+                           <label class="radio-inline">
                             <input type="radio" name="mtradio" value="Ineligible" ng-model="newRecord.MisdemeanorType">Ineligible
                         </label>
                         <label class="radio-inline">
