@@ -9,8 +9,7 @@
             //Base Firebase URL
             $rootScope.fbUrl = 'https://clean-slate.firebaseio.com/';
             var ref = new Firebase($rootScope.fbUrl);
-            
-           authObj = $firebaseAuth(ref);
+            var authObj = $firebaseAuth(ref);
         
             $rootScope.logIn = function(form) {
                
@@ -157,99 +156,3 @@ app.directive('someVideo', function ($window, $timeout) {
         }
     }
 })
-
-
-
-})();
-
-app.controller('MainCtrl', function ($scope) {
-    $scope.currentTime = 0;
-})
-
-app.directive('someVideo', function ($window, $timeout) {
-    return {
-        scope: {
-            videoCurrentTime: "=videoCurrentTime"
-        },
-        controller: function ($scope, $element) {
-
-            $scope.onTimeUpdate = function () {
-                var currTime = $element[0].currentTime;
-                if (currTime - $scope.videoCurrentTime > 0.5 || $scope.videoCurrentTime - currTime > 0.5) {
-                    $element[0].currentTime = $scope.videoCurrentTime;
-                }
-                $scope.$apply(function () {
-                    $scope.videoCurrentTime = $element[0].currentTime;
-                });
-            }
-        },
-        link: function (scope, elm) {
-            // Use this $watch to restart the video if it has ended
-            scope.$watch('videoCurrentTime', function (newVal) {
-
-                if (elm[0].ended) {
-                    // Do a second check because the last 'timeupdate'
-                    // after the video stops causes a hiccup.
-                    if (elm[0].currentTime !== newVal) {
-                        elm[0].currentTime = newVal;
-                        elm[0].play();
-                    }
-                }
-            });
-            // Otherwise keep any model syncing here.
-            elm.bind('timeupdate', scope.onTimeUpdate);
-        }
-    }
-})
-
-
-
-
-})();
-
-app.controller('MainCtrl', function ($scope) {
-    $scope.currentTime = 0;
-})
-
-app.directive('someVideo', function ($window, $timeout) {
-    return {
-        scope: {
-            videoCurrentTime: "=videoCurrentTime"
-        },
-        controller: function ($scope, $element) {
-
-            $scope.onTimeUpdate = function () {
-                var currTime = $element[0].currentTime;
-                if (currTime - $scope.videoCurrentTime > 0.5 || $scope.videoCurrentTime - currTime > 0.5) {
-                    $element[0].currentTime = $scope.videoCurrentTime;
-                }
-                $scope.$apply(function () {
-                    $scope.videoCurrentTime = $element[0].currentTime;
-                });
-            }
-        },
-        link: function (scope, elm) {
-            // Use this $watch to restart the video if it has ended
-            scope.$watch('videoCurrentTime', function (newVal) {
-
-                if (elm[0].ended) {
-                    // Do a second check because the last 'timeupdate'
-                    // after the video stops causes a hiccup.
-                    if (elm[0].currentTime !== newVal) {
-                        elm[0].currentTime = newVal;
-                        elm[0].play();
-                    }
-                }
-            });
-            // Otherwise keep any model syncing here.
-            elm.bind('timeupdate', scope.onTimeUpdate);
-        }
-    }
-})
-var app = angular.module('myApp', []);
-
-app.controller('myCtrl', function($scope, $window) {
-  $scope.foo = function() {
-    $window.open('//cleanslatedc.qwilr.com/G10voxYoSTla');
-  };
-});
