@@ -30,10 +30,8 @@
         vm.initDummyData = initDummyData;
         vm.addRecordItem = addRecordItem;
         vm.checkEligibility = checkEligibility;
-        vm.checkItemEligibility = checkItemEligibility;
         vm.findDConvictions = findDConvictions;
         vm.findConvictionDate = findConvictionDate;
-        vm.findConvictionsAfterDate = findConvictionsAfterDate;
         
         vm.initDummyData();
 
@@ -155,25 +153,22 @@
                     newConviction.itemType = $scope.newRecord.itemType;
                     newConviction.convictionStatus = $scope.newRecord.convictionStatus;
                     newConviction.offDate = $scope.newRecord.dispDate;
-                    newConviction.eligibilityDate = angular.copy($scope.newRecord.dispDate);
-                    newConviction.expirationYear = angular.copy($scope.newRecord.dispDate.year);
-
+                    newConviction.eligibilityDate = $scope.newRecord.dispDate;
+                    
                     //Determine which kind of conviction this is. Misdemeanor vs Felony 
                     if($scope.newRecord.itemType === 'Felony' && $scope.newRecord.felonyType === 'Ineligible')
                     {
                         //Set the the eligibility date for 10 years after this case was resolved.
                         newConviction.eligibilityDate.year = (parseInt($scope.newRecord.dispDate.year) + 10).toString();
-                        newConviction.expirationYear = angular.copy((parseInt($scope.newRecord.dispDate.year) + 10).toString());
-
+                        
                         //Information scope that Disqualifying Convictions are present. 
                         $scope.hasMDQconvictions = true;
                     }
                     else if($scope.newRecord.itemType === 'Misdemeanor')
                     {
                         //Set the the eligibility date for 5 years after this case was resolved.
-                        newConviction.eligibilityDate.year = angular.copy((parseInt($scope.newRecord.dispDate.year) + 5).toString());
-                        newConviction.expirationYear = angular.copy((parseInt($scope.newRecord.dispDate.year) + 5).toString());
-                                           
+                        newConviction.eligibilityDate.year = (parseInt($scope.newRecord.dispDate.year) + 5).toString();
+                    
                         //Information scope that Disqualifying Convictions are present. 
                         if($scope.newRecord.MisdemeanorType === 'Ineligible')
                             $scope.hasMDQconvictions = true;
@@ -226,11 +221,11 @@
             angular.forEach($scope.convictions, function(item)
                 {
                     //Compare each item with the input date. If date is before, then this is a subsequent conviction
-                    if(parseInt(item.offDate.year) > parseInt(checkDate.getFullYear()))
+                    if(parseInt(item.offDate.year) > parseInt(checkDate.year))
                         subsequent = true;  
-                    else if(parseInt(item.offDate.year) === parseInt(checkDate.getFullYear()) 
-                            && parseInt(item.offDate.month) > (checkDate.getMonth() + 1))
-                        subsequent = true;
+                    else if(parseInt(item.offDate.year) === parseInt(checkDate.year) 
+                            && parseInt(item.offDate.month) > parseInt(checkDate.month))
+                        subsequent = true;  
                 });
                 
                 //Return result of true or false
@@ -242,7 +237,6 @@
             console.log("looking for latest eligibility date");
         //This function will search the convictions array looking for the most recent expiration date
             var expirationDate = {};
-            var expirationYear = 0; 
 
             //Go through all items on the criminal record convictions list to determine if convictions may disqualify the item.  
             angular.forEach($scope.convictions, function(conviction)
@@ -250,50 +244,66 @@
                 
                 if(expirationDate === {}) //use current item's eligibilty date to get current Eligibility Date. 
                 {                    
-                    expirationDate = angular.copy(conviction.eligibilityDate);
+                    expirationDate = conviction.eligibilityDate;
                 }
                 else if(parseInt(expirationDate.year) > parseInt(conviction.eligibilityDate.year)) //Compare current item's eligibilty date to get current Eligibility Date.
                 {
-                    expirationDate = angular.copy(conviction.eligibilityDate);
+                    expirationDate = conviction.eligibilityDate;
                 }
                 else if(parseInt(expirationDate.year) === parseInt(conviction.eligibilityDate.year) //Compare current item's eligibilty date to get current Eligibility Date if they match
-                && parseInt(expirationDate.month) < parseInt(conviction.eligibilityDate.month))
+                && parseInt(expirationDate.month) < parseInt(conviction.eligibilityDate.year))
                 {
-                    expirationDate = angular.copy(conviction.eligibilityDate);
+                    expirationDate = conviction.eligibilityDate;
                 }
-
-                if(expirationYear === 0) //use current item's eligibilty date to get current Eligibility Date. 
-                {                    
-                    expirationYear = parseInt(angular.copy(conviction.expirationYear));
-                }
-                else if(expirationYear < parseInt(conviction.expirationYear)) //Compare current item's eligibilty date to get current Eligibility Date.
-                {
-                    expirationYear = angular.copy(conviction.expirationYear);
-                }
-                else if(expirationYear === parseInt(conviction.expirationYear))
-                {
-                    console.log("same year");
-                }
-
-
             });
 
-            console.log(expirationDate);
+console.log(expirationDate);
             //Save date for current item
-            var expiration = { "date": expirationDate, "year": expirationYear };
-            return expiration;
-
+            return expirationDate;
         };
         
-        function checkItemEligibility(item){
-        //This function will check a given item for it's sealing eligibility
-
-            var eligibilityYear = 0;
-
-            if(item.convictionStatus === 'Conviction' &&  item.itemType === 'Felony' &&  item.FelonyType === 'Ineligible')
+        function checkEligibility() {
+        //This function will determine eligibility for all items added to the record for this client
+    
+            //This variable will hold the earliest date for eligibility sealing
+            var convictionEligibilityDate = {}; 
+            
+            //Find the earliest year(date) based on convictions if other items exist on record
+            if($scope.convictions.length > 0 && $scope.records.length > 1);
+                convictionEligibilityDate = this.findConvictionDate();
+            
+            //Go through each item in the records list and determine its eligibility
+            angular.forEach($scope.records, function(item)
             {
-                //Eligibility checker for Conviction Felonies other than BRA
-
+                //set eligibilityDate as current item's disposition Date
+                var eligibilityDate = item.dispDate;
+                var eligibilityYear = parseInt(item.dispDate.year);
+                /* angular.copy(item.dispDate, eligibilityDate); 
+                */
+                
+                //Set default fields for record checker`
+                item.eligibility = '';
+                item.justifications = [];
+                        
+                //Pending Cases automatically prevent any items from having eligibilty 
+                if($scope.person.pendingCase === true)
+                {
+                    //Update eligibility results
+                    item.eligibility = 'Ineligible - Due to Pending Case';
+                    eligibilityYear = 0;
+                    
+                    //Create justification item to explain why it is ineligible 
+                    var newJustifications = {};
+                    newJustifications.explanation = "Your pending case must be completed before you can seal.";
+                    newJustifications.lawCode = "16-801(5)(B)";
+                    newJustifications.exception = "N/A";
+                    
+                    //Add justifications to current justifications list for this item.
+                    item.justifications.push(newJustifications);
+                }
+                
+                if(item.convictionStatus === 'Conviction' &&  item.itemType === 'Felony' &&  item.FelonyType === 'Ineligible')
+                {
                     //Update eligibility results
                     item.eligibility = 'Ineligible - Felony Conviction';
                     eligibilityYear = 0;
@@ -306,93 +316,58 @@
                     
                     //Add justifications to current justifications list for this item.
                     item.justifications.push(newJustifications);
-            }
             
-            else if(item.convictionStatus === 'Non-Conviction' &&  item.itemType === 'Felony' && item.papered === 'No')
-            {
-                //Eligibility checker for Non-Conviction Felonies that are "No Papered"                   
-            
-                    //Set earliest eligibility date: 3 years later 
-                    eligibilityYear = (parseInt(item.dispDate.year) + 3);
-                    
-                    //Create justification item to explain why it is eligible 
-                    var newJustifications = {};
-                    newJustifications.explanation = "You can seal this crime three years since off papers";
-                    newJustifications.lawCode = "16-803(b)(1)(A)";
-                    newJustifications.exception = "N/A";   
-                    item.justifications.push(newJustifications);            
-            }
-            else if(item.convictionStatus === 'Non-Conviction' &&  item.itemType === 'Felony' && item.papered === 'Yes')
-            {
-                //Eligibility checker for Non-Conviction Felonies that are "Papered"                   
-
-                    //Set earliest eligibility date: 4 years later
-                    eligibilityYear = (parseInt(item.dispDate.year) + 4);
-                                        
-                    //Create justification item to explain why it is ineligible                   
-                    var newJustifications = {};
-                    newJustifications.explanation = "You can seal this crime four years since off papers";
-                    newJustifications.lawCode = "16-803(b)(1)(A)";
-                    newJustifications.exception = "N/A";
-                    item.justifications.push(newJustifications);
-            }    
-            else if(item.convictionStatus === 'Non-Conviction' &&  item.itemType === 'Misdemeanor' &&  item.MisdemeanorType === 'Eligible')
-            { 
-                //Eligibility checker for Non-Conviction Misdeameanors - Eligible 
-                
-                    //Set earliest eligibility date: 2 years later 
-                    eligibilityYear = (parseInt(item.dispDate.year) + 2);
-            
-                   //Create justification item to explain why it is ineligible                                 
-                    var newJustifications = {};
-                    newJustifications.explanation = "Your eligible misdemeanor conviction can be sealed after a 2 year waiting period.";
-                    newJustifications.lawCode = "16-803(a)(1)(A)";
-                    newJustifications.exception = "If non-conviction because Deferred Sentencing Agreement, cannot be expunged if you have any misdemeanor or felony conviction";  
-                    
-                    //Add justifications to current justifications list for this item.                     
-                    item.justifications.push(newJustifications);        
-            }
-            else if(item.convictionStatus === 'Non-Conviction' &&  item.itemType === 'Misdemeanor' &&  item.MisdemeanorType === 'Ineligible' && item.papered === 'No')
-            {
-                //Eligibility checker for Non-Conviction Misdeameanors - Ineligible - No Papered
-                    if(item.papered === 'No')
+                }
+                else if(item.convictionStatus === 'Non-Conviction' &&  item.itemType === 'Felony')
+                {
+                    //Eligibility checker for Non-Conviction Felonies                    
+                    if(item.papered === 'No') //Eligibility for "No Papered"
                     {
-                        //Set earliest eligibility date: 3 years later                      
+                        //Set earliest eligibility date: 3 years later 
                         eligibilityYear = (parseInt(item.dispDate.year) + 3);
-                        
-                        //Create justification item to explain why it is ineligible                                 
+ 
+                        //Create justification item to explain why it is eligible 
                         var newJustifications = {};
-                        newJustifications.explanation = "This misdemeanor can be sealed after a 3 year waiting period.";
+                        newJustifications.explanation = "You can seal this crime three years since off papers";
                         newJustifications.lawCode = "16-803(b)(1)(A)";
-                        newJustifications.exception = "If non-conviction because Deferred Sentencing Agreement, cannot be expunged if you have any misdemeanor or felony conviction";
-                
-                        //Add justifications to current justifications list for this item.                     
+                        newJustifications.exception = "N/A";   
+                        item.justifications.push(newJustifications);
+                    }
+                    else if(item.papered === 'Yes') //Eligibility for "Papered"
+                    {
+                        //Set earliest eligibility date: 4 years later
+                        eligibilityYear = (parseInt(item.dispDate.year) + 4);
+                                         
+                        //Create justification item to explain why it is ineligible                   
+                        var newJustifications = {};
+                        newJustifications.explanation = "You can seal this crime four years since off papers";
+                        newJustifications.lawCode = "16-803(b)(1)(A)";
+                        newJustifications.exception = "N/A";
                         item.justifications.push(newJustifications);
                     }
                     
-                    
-            }      
-            else if(item.convictionStatus === 'Non-Conviction' &&  item.itemType === 'Misdemeanor' &&  item.MisdemeanorType === 'Ineligible' && item.papered === 'Yes')
-            {
-                //Eligibility checker for Non-Conviction Misdeameanors - Ineligible - Papered
-                  
-                    //Set earliest eligibility date: 4 years later                      
-                    eligibilityYear = (parseInt(item.dispDate.year) + 4);
-                    
-                    //Create justification item to explain why it is ineligible                                 
-                    var newJustifications = {};
-                    newJustifications.explanation = "This misdemeanor can be sealed after a 4 year waiting period.";
-                    newJustifications.lawCode = "16-803(b)(1)(A)";
-                    newJustifications.exception = "If non-conviction because Deferred Sentencing Agreement, cannot be expunged if you have any misdemeanor or felony conviction";
-            
-                    //Add justifications to current justifications list for this item.                     
-                    item.justifications.push(newJustifications);      
-            }
-            else if(item.convictionStatus === 'Conviction' &&  item.itemType === 'Misdemeanor' && item.MisdemeanorType === 'Ineligible')
-            {
-                //Eligibility checker for Conviction Misdeameanors - Ineligible 
+                    //Next, check list for any convictions and conviction eligibility dates that may alter the eligibility result 
+                    if($scope.convictions.length > 0 && parseInt(convictionEligibilityDate.year) > parseInt(eligibilityYear))
+                    {
+                        //Update eligibility date  
+                        eligibilityDate = convictionEligibilityDate;       
+                         
+                        //Create justification item to explain why it is eligible 
+                        var newJustifications = {};
+                        newJustifications.explanation = "Your conviction adds 5 - 10 years to waiting period.";
+                        newJustifications.lawCode = "16-803(b)(2)(A)/(B)";
+                        newJustifications.exception = "N/A";
+                        
+                        //Add justifications to current justifications list for this item.
+                        item.justifications.push(newJustifications);
+                    }               
+                }
                 
-                    //Set earliest eligibility date: Never                     
+                else if(item.convictionStatus === 'Conviction' &&  item.itemType === 'Misdemeanor' && item.MisdemeanorType === 'Ineligible')
+                {
+                    //Eligibility checker for Conviction Misdeameanors - Ineligible 
+                    
+                    //Update eligibility results
                     item.eligibility = 'Ineligible - Misemeanor Conviction';
                     eligibilityYear = 0;
             
@@ -404,32 +379,13 @@
                     
                     //Add justifications to current justifications list for this item.
                     item.justifications.push(newJustifications);
-            }
-            else if(item.convictionStatus === 'Conviction' &&  item.itemType === 'Misdemeanor' && item.MisdemeanorType === 'Eligible')
-            {
-                //Eligibility checker for Conviction Misdeameanors - Eligible 
+                }
+                else if(item.convictionStatus === 'Conviction' &&  item.itemType === 'Misdemeanor' && item.MisdemeanorType === 'Eligible')
+                {
+                    console.log('in eligible misdemeanor conviction');
+                    console.log($scope.hasMDQconvictions);
+                    //Eligibility checker for Conviction Misdeameanors - Eligible 
 
-                    //Set earliest eligibility date: 8 years later
-                    eligibilityYear = (parseInt(item.dispDate.year) + 8);
-                    
-                    //Create justification item to explain why it is eligible
-                    var newJustifications = {};
-                    newJustifications.explanation = "This can be sealed after an 8 year waiting period.";
-                    newJustifications.lawCode = "16-801(5)(c)";
-                    newJustifications.exception = "N/A";
-                    
-                    //Add justifications to current justifications list for this item.
-                    item.justifications.push(newJustifications);
-            }
-
-            
-            if(eligibilityYear == 0)
-            {
-                //Item can never be sealed 
-            }
-            else if(eligibilityYear > 0 && item.convictionStatus === 'Conviction' &&  item.itemType === 'Misdemeanor' && item.MisdemeanorType === 'Eligible')
-            {
-                 //Additional Eligibility checks for 16-803c - Misdemeanor Conviction - Eligible
                     if($scope.hasMDQconvictions) //Check for any convictions
                     {  
                         //Update eligibility results
@@ -445,10 +401,10 @@
                         //Add justifications to current justifications list for this item.
                         item.justifications.push(newJustifications);
                     }
-                    else if (vm.findConvictionsAfterDate(item.fullDate)) //Check for subsequent convictions
+                    else if ($scope.hasMDQconvictions && findConvictionsAfterDate(item.fullDate)) //Check for subsequent convictions
                     {
                         //Update eligibility results
-                        item.eligibility = 'Ineligible due to a Conviction';
+                        item.eligibility = 'Ineligible due to another Conviction';
                         eligibilityYear = 0;
                         
                         //Create justification item to explain why it is ineligible                   
@@ -460,45 +416,123 @@
                         //Add justifications to current justifications list for this item.
                         item.justifications.push(newJustifications);
                     }
-            }
-            else
-            {
-                //Additional Eligibility checks list for any other misdemeanor or felony convictions that may alter the year 
-                    if($scope.convictions.length > 0 && parseInt(item.convictionExpireYear) > parseInt(eligibilityYear))
-                    {
-                        //Update eligibility year  
-                        eligibilityYear = angular.copy(item.convictionExpireYear);       
-                            
-                        //Create justification item to explain why it is eligible 
+                    else
+                    {                        
+                        //Set earliest eligibility date: 8 years later 
+                        eligibilityYear = (parseInt(item.dispDate.year) + 8);
+
+                        //Create justification item to explain why it is eligible
                         var newJustifications = {};
-                        newJustifications.explanation = "A 5 - 10 year waiting period has been included due to your conviction.";
-                        newJustifications.lawCode = "16-803(b)(2)(A)/(B)";
-                        newJustifications.exception = "N/A";
-                        
-                        //Add justifications to current justifications list for this item.
-                        item.justifications.push(newJustifications);
-                    }           
-            }
-    
-                //Pending Cases automatically prevent any items from having eligibilty 
-                    if($scope.person.pendingCase === true)
-                    {
-                        //Update eligibility results
-                        item.eligibility = 'Ineligible - Due to Pending Case';
-                        eligibilityYear = 0;
-                        
-                        //Create justification item to explain why it is ineligible 
-                        var newJustifications = {};
-                        newJustifications.explanation = "Your pending case must be completed before you can seal.";
-                        newJustifications.lawCode = "16-801(5)(B)";
+                        newJustifications.explanation = "This can be sealed after an 8 year waiting period.";
+                        newJustifications.lawCode = "16-801(5)(c)";
                         newJustifications.exception = "N/A";
                         
                         //Add justifications to current justifications list for this item.
                         item.justifications.push(newJustifications);
                     }
-
+                }
                 
-                //Customize item after 
+                else if(item.convictionStatus === 'Non-Conviction' &&  item.itemType === 'Misdemeanor' &&  item.MisdemeanorType === 'Eligible')
+                { 
+                    //Eligibility checker for Non-Conviction Misdeameanors - Eligible 
+                    if($scope.convictions.length > 0 && parseInt(convictionEligibilityDate.year) > parseInt(eligibilityYear))
+                    {
+                        //Check to ensure waiting periods for convictions on current record have not passed
+                        eligibilityDate = convictionEligibilityDate;  
+                    
+                        //Create justification item to explain why it is ineligible                                 
+                        var newJustifications = {};
+                        newJustifications.explanation = "Your other conviction will add 5-10 years to the waiting period.";
+                        newJustifications.lawCode = "16-803(a)(2)(A) ; 16-803(a)(2)(B)";
+                        newJustifications.exception = "N/A";
+                        
+                        //Add justifications to current justifications list for this item.
+                        item.justifications.push(newJustifications);
+                    } 
+                    else
+                    {
+                        //Set earliest eligibility date: 2 years later 
+                        eligibilityYear = (parseInt(item.dispDate.year) + 2);
+                    
+                        //Create justification item to explain why it is ineligible                                 
+                        var newJustifications = {};
+                        newJustifications.explanation = "Your eligible misdemeanor conviction can be sealed after a 2 year waiting period.";
+                        newJustifications.lawCode = "16-803(a)(1)(A)";
+                        newJustifications.exception = "If non-conviction because Deferred Sentencing Agreement, cannot be expunged if you have any misdemeanor or felony conviction";  
+                     
+                        //Add justifications to current justifications list for this item.                     
+                        item.justifications.push(newJustifications);        
+                    } 
+                }              
+                else if(item.convictionStatus === 'Non-Conviction' &&  item.itemType === 'Misdemeanor' &&  item.MisdemeanorType === 'Ineligible')
+                {
+                    //Eligibility checker for Non-Conviction Misdeameanors - Ineligible 
+                    if(item.papered === 'No')
+                    {                    
+                        if($scope.convictions.length > 0 && parseInt(convictionEligibilityDate.year) > parseInt(eligibilityYear))
+                        {
+                            //Check to ensure waiting periods for convictions on current record have not passed
+                            eligibilityDate = convictionEligibilityDate;     
+                            
+                            //Create justification item to explain why it is ineligible                                 
+                            var newJustifications = {};
+                            newJustifications.explanation = "Your other conviction will add 5-10 years to the waiting period.";
+                            newJustifications.lawCode = "16-803(a)(2)(A) ; 16-803(a)(2)(B)";
+                            newJustifications.exception = "N/A";
+                            
+                            //Add justifications to current justifications list for this item.                     
+                            item.justifications.push(newJustifications);
+                        }
+                        else
+                        {
+                            //Set earliest eligibility date: 3 years later                      
+                            eligibilityYear = (parseInt(item.dispDate.year) + 3);
+                            
+                            //Create justification item to explain why it is ineligible                                 
+                            var newJustifications = {};
+                            newJustifications.explanation = "This misdemeanor can be sealed after a 3 year waiting period.";
+                            newJustifications.lawCode = "16-803(b)(1)(A)";
+                            newJustifications.exception = "If non-conviction because Deferred Sentencing Agreement, cannot be expunged if you have any misdemeanor or felony conviction";
+                    
+                            //Add justifications to current justifications list for this item.                     
+                            item.justifications.push(newJustifications);
+                        }
+                    }
+                    else if(item.papered === 'Yes')
+                    {
+                        
+                        if($scope.convictions.length > 0 && parseInt(convictionEligibilityDate.year) > parseInt(eligibilityYear))
+                        {   
+                            //Check to ensure waiting periods for convictions on current record have not passed
+                      	    eligibilityDate = convictionEligibilityDate;
+                            
+                            //Create justification item to explain why it is ineligible                                 
+                            var newJustifications = {};
+                            newJustifications.explanation = "Your other conviction will add 5-10 years to the waiting period.";
+                            newJustifications.lawCode = "16-803(a)(2)(A) ; 16-803(a)(2)(B)";
+                            newJustifications.exception = "N/A";
+                            
+                            //Add justifications to current justifications list for this item.                     
+                            item.justifications.push(newJustifications);           
+                        } 
+                        else
+                        {
+                            //Set earliest eligibility date: 4 years later                      
+                            eligibilityYear = (parseInt(item.dispDate.year) + 4);
+                            
+                            //Create justification item to explain why it is ineligible                                 
+                            var newJustifications = {};
+                            newJustifications.explanation = "This misdemeanor can be sealed after a 4 year waiting period.";
+                            newJustifications.lawCode = "16-803(b)(1)(A)";
+                            newJustifications.exception = "If non-conviction because Deferred Sentencing Agreement, cannot be expunged if you have any misdemeanor or felony conviction";
+                    
+                            //Add justifications to current justifications list for this item.                     
+                            item.justifications.push(newJustifications);                         
+                        }   
+                    }
+                }                               
+                
+                
                 if(item.eligibility === '' && parseInt(eligibilityYear) > 0)
                 {
                     //Show final results for record item
@@ -518,34 +552,11 @@
                 }
                 
                 //TESTING - Output final record item before saving 
-                //console.log(item);
-        };
-
-        function checkEligibility() {
-        //This function will determine eligibility for all items added to the record for this client
-    
-            //This variable will hold the earliest date for eligibility sealing
-            var convictionEligibilityDate = {}; 
-            var convictionExpireYear = 0;
-
-            //Find the earliest year(date) based on convictions if other items exist on record
-            if($scope.convictions.length > 0 && $scope.records.length > 1);
-            {    
-                convictionEligibilityDate = vm.findConvictionDate();
-                convictionExpireYear = angular.copy(convictionEligibilityDate.year);
-            }
-
-            //Go through each item in the records list and determine its eligibility
-            angular.forEach($scope.records, function(item)
-            {
-                item.convictionExpireYear = convictionExpireYear;
-                item.convictionEligibilityDate = angular.copy(convictionEligibilityDate);
-                item.eligibility = '';
-                item.justifications = [];
-                vm.checkItemEligibility(item);
+                console.log(item);
             });
-       
-
+            
+            //TESTING - Output final list of record items 
+            console.log($scope.records);
         };
         
         $scope.dispositionOptions = [

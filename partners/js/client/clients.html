@@ -9,11 +9,34 @@
 
      <button ui-sref="newClient" class="btn btn-success">Add New Client</button>
                
-<ul>
-    <li ng-repeat="client in clients">
-        {{ client.clientID }} -  {{ client.status }} {{ client.determination }}
-    </li>
-    
-</ul>
+
+    <div style="padding: 2em">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr class="info">
+                    <th>
+                        Client ID
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Determination
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="client in clients">
+                    <td>{{ client.clientID }} 
+                    </td>
+                    <td>{{ client.status }}
+                    </td>
+                    <td>{{ client.determination }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
     </div>
 
