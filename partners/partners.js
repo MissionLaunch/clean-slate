@@ -45,14 +45,11 @@
                 }
             };
             
-            
             $rootScope.logOut = function() {
                 ref.unauth();
                 $rootScope.currentUser = null;
                 $state.go('login');
             };
-   
-   
    
         }])
        
@@ -117,6 +114,8 @@
 
 })();
 
+/*
+
 app.controller('MainCtrl', function ($scope) {
     $scope.currentTime = 0;
 })
@@ -156,3 +155,6 @@ app.directive('someVideo', function ($window, $timeout) {
         }
     }
 })
+
+
+*/
