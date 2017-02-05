@@ -158,13 +158,17 @@
                     newConviction.eligibilityDate = angular.copy($scope.newRecord.dispDate);
                     newConviction.expirationYear = angular.copy($scope.newRecord.dispDate.year);
 
+                    console.log($scope.newRecord);
+                    
                     //Determine which kind of conviction this is. Misdemeanor vs Felony 
                     if($scope.newRecord.itemType === 'Felony' && $scope.newRecord.felonyType === 'Ineligible')
                     {
+                        console.log("found a felony conviction");
+                        
                         //Set the the eligibility date for 10 years after this case was resolved.
                         newConviction.eligibilityDate.year = (parseInt($scope.newRecord.dispDate.year) + 10).toString();
                         newConviction.expirationYear = angular.copy((parseInt($scope.newRecord.dispDate.year) + 10).toString());
-
+console.log(newConviction);
                         //Information scope that Disqualifying Convictions are present. 
                         $scope.hasMDQconvictions = true;
                     }
