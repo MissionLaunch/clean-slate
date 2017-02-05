@@ -3,10 +3,17 @@
   "endStates": {
     "comment0": "*****************START OF LEGAL AID END STATES *********************",
     "acquireYourRecord": {
-      "eligibilityText": "You can either access your criminal record online or visit the DC court in person to acquire your complete record.",
+      "eligibilityText": "You can either access your criminal record online or visit the DC court in person to acquire your complete record.<a class="btn btn-primary btn-lg" ui-sref="screener">Speak to a lawyer </a> ",
       "icon": "glyphicon glyphicon-flag",
       "level": "warning",
-      "helperText": "In the menu above, please visit 'Acquire Your Record/Rap Sheet' for more instructions."
+      "helperText": 
+      
+       "comment1": "*****************START OF LEGAL AID END STATES *********************",
+    "acquireYourRecord": {
+      "eligibilityText": "It doesn't seem like sealing is the right option for you",
+      "icon": "glyphicon glyphicon-flag",
+      "level": "warning",
+      "helperText": 
     },
     "comment100": "*****************START OF FUGITIVE JUSTICE END STATES *********************",
     "ineligibleFJ": {
